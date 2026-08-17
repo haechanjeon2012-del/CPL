@@ -1,262 +1,120 @@
-const data =
-    JSON.parse(
-        localStorage.getItem("CPL_DATA")
-    ) || structuredClone(window.CPL_DATA);
+/* =========================================
+   CPL 관리자 로그인
+   테스트용
+========================================= */
 
 
-/* 경기 목록 */
+/*
+    ⚠️ 테스트용 비밀번호
 
-function loadGames() {
+    공개하기 전에는 실제 인증 시스템으로
+    교체해야 합니다.
+*/
 
-    const select =
-        document.getElementById("gameSelect");
-
-    select.innerHTML = "";
-
-    data.games.forEach(game => {
-
-        const home =
-            data.teams.find(
-                team => team.id === game.home
-            );
-
-        const away =
-            data.teams.find(
-                team => team.id === game.away
-            );
-
-        const option =
-            document.createElement("option");
-
-        option.value = game.id;
-
-        option.textContent =
-            `${game.id}차전 | ${home.name} VS ${away.name}`;
-
-        select.appendChild(option);
-
-    });
-}
+const ADMIN_PASSWORD = "1234";
 
 
-/* 경기 결과 저장 */
+/* =========================================
+   로그인
+========================================= */
 
-function saveGame() {
+function loginAdmin() {
 
-    const id =
-        Number(
-            document.getElementById("gameSelect").value
+    const password =
+        document.getElementById(
+            "admin-password"
+        ).value;
+
+    const error =
+        document.getElementById(
+            "login-error"
         );
 
-    const game =
-        data.games.find(
-            game => game.id === id
+
+    if (password === ADMIN_PASSWORD) {
+
+        sessionStorage.setItem(
+            "CPL_ADMIN_LOGIN",
+            "true"
         );
 
-    game.homeScore =
-        Number(
-            document.getElementById("homeScore").value
-        );
+        showAdmin();
 
-    game.awayScore =
-        Number(
-            document.getElementById("awayScore").value
-        );
+    } else {
 
-    game.status = "종료";
+        error.style.display = "block";
 
-    save();
-
-    alert("⚾ 경기 결과가 저장되었습니다.");
-}
-
-
-/* 일정 저장 */
-
-function saveSchedule() {
-
-    const date =
-        document.getElementById("scheduleDate").value;
-
-    const home =
-        document.getElementById("scheduleHome").value;
-
-    const away =
-        document.getElementById("scheduleAway").value;
-
-    if (!date || !home || !away) {
-        alert("모든 정보를 입력해주세요.");
-        return;
     }
 
-    data.games.push({
-
-        id: data.games.length + 1,
-
-        date: date,
-
-        home: home,
-
-        away: away,
-
-        homeScore: null,
-
-        awayScore: null,
-
-        status: "예정"
-
-    });
-
-    save();
-
-    alert("📅 일정이 저장되었습니다.");
 }
 
 
-/* 뉴스 저장 */
+/* =========================================
+   관리자 화면 표시
+========================================= */
 
-function saveNews() {
+function showAdmin() {
 
-    const title =
-        document.getElementById("newsTitle").value;
+    document.getElementById(
+        "login-screen"
+    ).style.display = "none";
 
-    const content =
-        document.getElementById("newsContent").value;
 
-    data.news.push({
+    document.getElementById(
+        "admin-panel"
+    ).style.display = "block";
 
-        id: Date.now(),
-
-        category: "뉴스",
-
-        title: title,
-
-        content: content,
-
-        date:
-            new Date()
-                .toISOString()
-                .split("T")[0]
-
-    });
-
-    save();
-
-    alert("📰 뉴스가 등록되었습니다.");
 }
 
 
-/* 팀 목록 */
+/* =========================================
+   로그아웃
+========================================= */
 
-function loadTeams() {
+function logoutAdmin() {
 
-    const select =
-        document.getElementById("teamSelect");
+    sessionStorage.removeItem(
+        "CPL_ADMIN_LOGIN"
+    );
 
-    data.teams.forEach(team => {
+    location.reload();
 
-        const option =
-            document.createElement("option");
-
-        option.value = team.id;
-
-        option.textContent = team.name;
-
-        select.appendChild(option);
-
-    });
 }
 
 
-/* 팀 저장 */
+/* =========================================
+   관리자 메뉴
+========================================= */
 
-function saveTeam() {
+function openSection(section) {
 
-    const id =
-        document.getElementById("teamSelect").value;
-
-    const team =
-        data.teams.find(
-            team => team.id === id
-        );
-
-    team.name =
-        document.getElementById("teamName").value;
-
-    team.english =
-        document.getElementById("teamEnglish").value;
-
-    save();
-
-    alert("👥 팀 정보가 저장되었습니다.");
-}
-
-
-/* 선수 목록 */
-
-function loadPlayers() {
-
-    const select =
-        document.getElementById("playerSelect");
-
-    data.players.forEach(player => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = player.id;
-
-        option.textContent = player.name;
-
-        select.appendChild(option);
-
-    });
-}
-
-
-/* 선수 저장 */
-
-function savePlayer() {
-
-    const id =
-        document.getElementById("playerSelect").value;
-
-    const player =
-        data.players.find(
-            player => player.id === id
-        );
-
-    player.name =
-        document.getElementById("playerName").value;
-
-    player.number =
-        Number(
-            document.getElementById("playerNumber").value
-        );
-
-    player.position =
-        document.getElementById("playerPosition").value;
-
-    save();
-
-    alert("👤 선수 정보가 저장되었습니다.");
-}
-
-
-/* 저장 */
-
-function save() {
-
-    localStorage.setItem(
-        "CPL_DATA",
-        JSON.stringify(data)
+    alert(
+        section +
+        " 관리 기능을 연결하는 단계입니다."
     );
 
 }
 
 
-/* 시작 */
+/* =========================================
+   페이지 시작
+========================================= */
 
-loadGames();
-loadTeams();
-loadPlayers();
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const loggedIn =
+            sessionStorage.getItem(
+                "CPL_ADMIN_LOGIN"
+            );
+
+
+        if (loggedIn === "true") {
+
+            showAdmin();
+
+        }
+
+    }
+);
