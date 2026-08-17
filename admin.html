@@ -3,25 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>CPL 관리자</title>
+
     <link rel="stylesheet" href="style.css">
 
     <style>
-        .admin-login {
+        body {
+            margin: 0;
+            background: #f4f6f9;
+        }
+
+        .admin-wrap {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .login-box {
             max-width: 420px;
-            margin: 70px auto;
-            padding: 30px;
+            margin: 80px auto;
             background: white;
+            padding: 30px;
             border-radius: 16px;
             box-shadow: 0 8px 30px rgba(0,0,0,.1);
         }
 
-        .admin-login h1 {
+        .login-box h1 {
             margin-top: 0;
         }
 
         .admin-input {
             width: 100%;
+            box-sizing: border-box;
             padding: 14px;
             margin: 8px 0 15px;
             border: 1px solid #ddd;
@@ -29,7 +43,7 @@
             font-size: 16px;
         }
 
-        .admin-button {
+        .admin-btn {
             width: 100%;
             padding: 14px;
             border: 0;
@@ -41,18 +55,32 @@
             cursor: pointer;
         }
 
-        .admin-button:hover {
+        .admin-btn:hover {
             opacity: .9;
         }
 
-        .admin-error {
+        .error {
+            display: none;
             color: #d32f2f;
             margin-top: 12px;
-            display: none;
         }
 
         #admin-panel {
             display: none;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .admin-header button {
+            width: auto;
+            padding: 10px 18px;
+            background: #c62828;
         }
 
         .admin-grid {
@@ -63,19 +91,22 @@
 
         .admin-card {
             background: white;
-            border: 1px solid #e1e5ea;
-            border-radius: 14px;
             padding: 25px;
+            border-radius: 14px;
+            border: 1px solid #e2e5e9;
         }
 
         .admin-card h2 {
             margin-top: 0;
         }
 
-        .admin-card button {
+        .admin-card p {
+            color: #666;
+        }
+
+        .menu-btn {
             width: 100%;
-            padding: 12px;
-            margin-top: 8px;
+            padding: 13px;
             border: 0;
             border-radius: 8px;
             background: #1769e8;
@@ -84,13 +115,26 @@
             cursor: pointer;
         }
 
-        .logout-button {
-            background: #c62828 !important;
+        .notice {
+            margin-top: 25px;
+            padding: 16px;
+            background: #fff8e1;
+            border-radius: 10px;
+            color: #795548;
         }
 
         @media (max-width: 700px) {
             .admin-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .admin-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .admin-header button {
+                width: 100%;
             }
         }
     </style>
@@ -98,27 +142,13 @@
 
 <body>
 
-<header class="top-header">
-
-    <div class="logo">
-        ⚾ <strong>CPL</strong>
-        <span>2026</span>
-    </div>
-
-    <div class="league-title">
-        🔐 관리자
-    </div>
-
-</header>
-
-
 <!-- =========================
-     로그인 화면
+     로그인
 ========================= -->
 
-<section id="login-screen" class="admin-login">
+<div id="login-screen" class="login-box">
 
-    <h1>🔐 CPL 관리자 로그인</h1>
+    <h1>🔐 CPL 관리자</h1>
 
     <p>
         관리자만 이용할 수 있습니다.
@@ -129,23 +159,22 @@
         class="admin-input"
         type="password"
         placeholder="관리자 비밀번호"
+        autocomplete="off"
     >
 
     <button
-        class="admin-button"
-        onclick="loginAdmin()"
+        id="login-button"
+        class="admin-btn"
+        type="button"
     >
         로그인
     </button>
 
-    <div
-        id="login-error"
-        class="admin-error"
-    >
+    <div id="login-error" class="error">
         비밀번호가 올바르지 않습니다.
     </div>
 
-</section>
+</div>
 
 
 <!-- =========================
@@ -154,130 +183,167 @@
 
 <main id="admin-panel">
 
-    <h1>⚾ CPL 관리자 센터</h1>
+    <div class="admin-wrap">
 
-    <p>
-        CPL 사이트의 정보를 관리합니다.
-    </p>
+        <div class="admin-header">
 
+            <div>
+                <h1>⚾ CPL 관리자 센터</h1>
+                <p>천중 프리미어리그 2026</p>
+            </div>
 
-    <div class="admin-grid">
-
-        <!-- 경기 -->
-
-        <div class="admin-card">
-
-            <h2>⚾ 경기 결과</h2>
-
-            <p>
-                경기 결과와 점수를 수정합니다.
-            </p>
-
-            <button onclick="openSection('games')">
-                경기 관리
+            <button
+                id="logout-button"
+                class="admin-btn"
+                type="button"
+            >
+                로그아웃
             </button>
 
         </div>
 
 
-        <!-- 일정 -->
+        <div class="admin-grid">
 
-        <div class="admin-card">
+            <!-- 경기 -->
 
-            <h2>📅 일정</h2>
+            <div class="admin-card">
 
-            <p>
-                경기 날짜와 대진을 수정합니다.
-            </p>
+                <h2>⚾ 경기 결과</h2>
 
-            <button onclick="openSection('schedule')">
-                일정 관리
-            </button>
+                <p>
+                    경기 결과와 점수를 관리합니다.
+                </p>
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    onclick="openAdminMenu('경기 결과')"
+                >
+                    경기 관리
+                </button>
+
+            </div>
+
+
+            <!-- 일정 -->
+
+            <div class="admin-card">
+
+                <h2>📅 일정</h2>
+
+                <p>
+                    경기 일정과 대진을 관리합니다.
+                </p>
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    onclick="openAdminMenu('일정')"
+                >
+                    일정 관리
+                </button>
+
+            </div>
+
+
+            <!-- 뉴스 -->
+
+            <div class="admin-card">
+
+                <h2>📰 뉴스</h2>
+
+                <p>
+                    CPL 뉴스와 공지를 관리합니다.
+                </p>
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    onclick="openAdminMenu('뉴스')"
+                >
+                    뉴스 관리
+                </button>
+
+            </div>
+
+
+            <!-- 팀 -->
+
+            <div class="admin-card">
+
+                <h2>👥 팀 정보</h2>
+
+                <p>
+                    팀 이름과 정보를 관리합니다.
+                </p>
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    onclick="openAdminMenu('팀 정보')"
+                >
+                    팀 관리
+                </button>
+
+            </div>
+
+
+            <!-- 선수 -->
+
+            <div class="admin-card">
+
+                <h2>👤 선수 정보</h2>
+
+                <p>
+                    선수 정보를 관리합니다.
+                </p>
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    onclick="openAdminMenu('선수 정보')"
+                >
+                    선수 관리
+                </button>
+
+            </div>
+
+
+            <!-- 사이트 -->
+
+            <div class="admin-card">
+
+                <h2>🌐 CPL 사이트</h2>
+
+                <p>
+                    공개된 CPL 홈페이지를 확인합니다.
+                </p>
+
+                <button
+                    class="menu-btn"
+                    type="button"
+                    onclick="location.href='index.html'"
+                >
+                    사이트 열기
+                </button>
+
+            </div>
 
         </div>
 
 
-        <!-- 뉴스 -->
-
-        <div class="admin-card">
-
-            <h2>📰 뉴스</h2>
-
-            <p>
-                CPL 뉴스와 공지를 등록합니다.
-            </p>
-
-            <button onclick="openSection('news')">
-                뉴스 관리
-            </button>
-
-        </div>
-
-
-        <!-- 팀 -->
-
-        <div class="admin-card">
-
-            <h2>👥 팀</h2>
-
-            <p>
-                팀 이름과 정보를 수정합니다.
-            </p>
-
-            <button onclick="openSection('teams')">
-                팀 관리
-            </button>
-
-        </div>
-
-
-        <!-- 선수 -->
-
-        <div class="admin-card">
-
-            <h2>👤 선수</h2>
-
-            <p>
-                선수 정보를 수정합니다.
-            </p>
-
-            <button onclick="openSection('players')">
-                선수 관리
-            </button>
-
-        </div>
-
-
-        <!-- 사이트 -->
-
-        <div class="admin-card">
-
-            <h2>🌐 사이트</h2>
-
-            <p>
-                CPL 공개 사이트로 이동합니다.
-            </p>
-
-            <button onclick="location.href='index.html'">
-                CPL 사이트 열기
-            </button>
-
+        <div class="notice">
+            ⚠️ 현재는 관리자 로그인과 메뉴 테스트 단계입니다.
+            다음 단계에서 각 메뉴에 실제 수정 기능을 연결합니다.
         </div>
 
     </div>
 
-
-    <br>
-
-    <button
-        class="admin-button logout-button"
-        onclick="logoutAdmin()"
-    >
-        로그아웃
-    </button>
-
 </main>
 
+
+<!-- ★ admin.js 하나만 연결 -->
 
 <script src="admin.js"></script>
 
