@@ -218,7 +218,7 @@
                 <button
                     class="menu-btn"
                     type="button"
-                    onclick="openAdminMenu('경기 결과')"
+                    onclick="openAdminMenu()"
                 >
                     경기 관리
                 </button>
@@ -339,7 +339,74 @@
         </div>
 
     </div>
+<!-- 경기 결과 관리 -->
 
+<section
+    id="game-manager"
+    style="
+        display:none;
+        margin-top:25px;
+        background:white;
+        padding:25px;
+        border-radius:14px;
+    "
+>
+
+    <h2>⚾ 경기 결과 관리</h2>
+
+    <label>경기 선택</label>
+
+    <select
+        id="gameSelect"
+        style="
+            width:100%;
+            padding:12px;
+            margin:10px 0 20px;
+        "
+    ></select>
+
+
+    <label>홈팀 점수</label>
+
+    <input
+        id="homeScore"
+        type="number"
+        min="0"
+        placeholder="홈팀 점수"
+        style="
+            width:100%;
+            padding:12px;
+            margin:10px 0;
+            box-sizing:border-box;
+        "
+    >
+
+
+    <label>원정팀 점수</label>
+
+    <input
+        id="awayScore"
+        type="number"
+        min="0"
+        placeholder="원정팀 점수"
+        style="
+            width:100%;
+            padding:12px;
+            margin:10px 0 20px;
+            box-sizing:border-box;
+        "
+    >
+
+
+    <button
+        class="menu-btn"
+        type="button"
+        onclick="saveGameResult()"
+    >
+        💾 경기 결과 저장
+    </button>
+
+</section>
 </main>
 
 
