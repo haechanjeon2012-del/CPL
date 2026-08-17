@@ -1,0 +1,673 @@
+/* =========================================
+   CPL 2026 - SPORTS PORTAL DESIGN
+   ========================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background: #f3f5f8;
+    color: #111827;
+    font-family:
+        Arial,
+        "Noto Sans KR",
+        sans-serif;
+}
+
+/* =========================================
+   HEADER
+   ========================================= */
+
+.top-header {
+    height: 76px;
+    background: #071a3d;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 6%;
+
+    border-bottom: 3px solid #e5b93f;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    font-size: 15px;
+    margin-left: 5px;
+    color: #e5b93f;
+}
+
+.league-title {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* =========================================
+   NAVIGATION
+   ========================================= */
+
+.main-nav {
+    background: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 0;
+
+    border-bottom: 1px solid #dfe3e8;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.main-nav a {
+    color: #202633;
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    padding: 17px 21px;
+
+    transition: 0.2s;
+}
+
+.main-nav a:hover {
+    color: #1769e8;
+    background: #f3f6fb;
+}
+
+/* =========================================
+   MAIN
+   ========================================= */
+
+main {
+    width: min(1180px, 92%);
+    margin: 28px auto 70px;
+}
+
+/* =========================================
+   MAIN NEWS
+   ========================================= */
+
+.main-news {
+    min-height: 360px;
+
+    display: flex;
+    align-items: stretch;
+
+    border-radius: 16px;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            120deg,
+            #071a3d,
+            #123c7a
+        );
+
+    color: white;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.news-image {
+    width: 55%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 130px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255,255,255,0.15),
+            transparent 60%
+        );
+}
+
+.news-text {
+    width: 45%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 45px;
+}
+
+.category {
+    color: #e5b93f;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.news-text h1 {
+    margin: 12px 0;
+
+    font-size: clamp(35px, 5vw, 62px);
+    line-height: 1.05;
+
+    letter-spacing: -3px;
+}
+
+.news-text p {
+    color: #dce5f5;
+    font-size: 14px;
+    letter-spacing: 3px;
+}
+
+/* =========================================
+   DASHBOARD
+   ========================================= */
+
+.dashboard {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 18px;
+
+    margin-top: 20px;
+}
+
+.box {
+    background: white;
+
+    border: 1px solid #e0e4e9;
+
+    border-radius: 14px;
+
+    overflow: hidden;
+
+    box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+}
+
+.box-title {
+    padding: 17px 20px;
+
+    font-size: 18px;
+    font-weight: 900;
+
+    border-bottom: 1px solid #e7e9ed;
+}
+
+/* =========================================
+   MATCH
+   ========================================= */
+
+.match {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 35px;
+
+    padding: 30px 20px 15px;
+
+    text-align: center;
+}
+
+.match div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.match strong {
+    font-size: 23px;
+}
+
+.match small {
+    color: #89919d;
+}
+
+.vs {
+    color: #e5b93f;
+    font-weight: 900;
+    font-size: 17px;
+}
+
+.match-date {
+    text-align: center;
+
+    padding-bottom: 22px;
+
+    color: #697281;
+
+    font-size: 13px;
+}
+
+/* =========================================
+   RANKING
+   ========================================= */
+
+.ranking div {
+    display: grid;
+
+    grid-template-columns: 35px 1fr auto;
+
+    align-items: center;
+
+    padding: 13px 20px;
+
+    border-bottom: 1px solid #edf0f3;
+}
+
+.ranking div:last-child {
+    border-bottom: none;
+}
+
+.ranking b {
+    color: #9aa1ab;
+}
+
+.ranking strong {
+    color: #596273;
+
+    font-size: 13px;
+}
+
+/* =========================================
+   SECTION TITLE
+   ========================================= */
+
+.section-title {
+    margin-top: 30px;
+
+    padding: 14px 3px;
+
+    border-bottom: 2px solid #111827;
+
+    font-size: 21px;
+    font-weight: 900;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-title a {
+    color: #8a929e;
+
+    text-decoration: none;
+
+    font-size: 13px;
+}
+
+/* =========================================
+   NEXT GAME
+   ========================================= */
+
+.next-match {
+    background: white;
+
+    min-height: 110px;
+
+    border: 1px solid #e1e5ea;
+
+    border-radius: 12px;
+
+    margin-top: 12px;
+
+    display: grid;
+
+    grid-template-columns:
+        100px
+        1fr
+        80px
+        1fr
+        80px;
+
+    align-items: center;
+
+    padding: 15px 25px;
+
+    box-shadow: 0 3px 12px rgba(0,0,0,0.04);
+}
+
+.date {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.date small {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #89919d;
+
+    font-size: 12px;
+}
+
+.team {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 21px;
+}
+
+.big-vs {
+    text-align: center;
+
+    color: #e5b93f;
+
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.game-number {
+    text-align: center;
+
+    color: #697281;
+
+    font-size: 13px;
+}
+
+/* =========================================
+   NEWS
+   ========================================= */
+
+.news-list {
+    background: white;
+
+    margin-top: 12px;
+
+    border-radius: 12px;
+
+    border: 1px solid #e1e5ea;
+
+    overflow: hidden;
+}
+
+.news-list article {
+    display: grid;
+
+    grid-template-columns: 65px 1fr 90px;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 17px 20px;
+
+    border-bottom: 1px solid #edf0f3;
+}
+
+.news-list article:last-child {
+    border-bottom: none;
+}
+
+.news-list span {
+    color: #1769e8;
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+.news-list strong {
+    font-size: 14px;
+}
+
+.news-list time {
+    text-align: right;
+
+    color: #9aa1ab;
+
+    font-size: 12px;
+}
+
+/* =========================================
+   TEAMS
+   ========================================= */
+
+.teams {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 12px;
+
+    margin-top: 12px;
+}
+
+.team-card {
+    min-height: 170px;
+
+    color: white;
+
+    border-radius: 14px;
+
+    padding: 22px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    text-align: center;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+
+    transition: transform 0.2s;
+}
+
+.team-card:hover {
+    transform: translateY(-4px);
+}
+
+.team-logo {
+    font-size: 50px;
+
+    margin-bottom: 10px;
+}
+
+.team-card strong {
+    font-size: 21px;
+}
+
+.team-card small {
+    margin-top: 4px;
+
+    opacity: 0.75;
+
+    letter-spacing: 1px;
+}
+
+.blue {
+    background: #1769e8;
+}
+
+.orange {
+    background: #ed7d22;
+}
+
+.yellow {
+    background: #b99a00;
+}
+
+.black {
+    background: #20242b;
+}
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+footer {
+    background: #071a3d;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 40px 20px;
+}
+
+footer strong {
+    font-size: 22px;
+}
+
+footer p {
+    color: #bfc9da;
+
+    margin: 8px 0;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+}
+
+footer small {
+    color: #7f8da6;
+}
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 800px) {
+
+    .top-header {
+        height: auto;
+
+        padding: 15px 20px;
+
+        flex-direction: column;
+
+        gap: 5px;
+    }
+
+    .main-nav {
+        overflow-x: auto;
+
+        justify-content: flex-start;
+
+        white-space: nowrap;
+    }
+
+    .main-nav a {
+        padding: 14px 13px;
+
+        font-size: 13px;
+    }
+
+    main {
+        width: 94%;
+
+        margin-top: 18px;
+    }
+
+    .main-news {
+        min-height: 300px;
+
+        flex-direction: column;
+    }
+
+    .news-image {
+        width: 100%;
+
+        height: 140px;
+
+        font-size: 75px;
+    }
+
+    .news-text {
+        width: 100%;
+
+        padding: 25px;
+    }
+
+    .news-text h1 {
+        font-size: 38px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .next-match {
+        grid-template-columns:
+            1fr
+            1fr;
+
+        gap: 18px;
+
+        padding: 20px;
+    }
+
+    .date {
+        text-align: center;
+    }
+
+    .big-vs {
+        display: none;
+    }
+
+    .game-number {
+        grid-column: 1 / -1;
+    }
+
+    .teams {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .news-list article {
+        grid-template-columns:
+            50px
+            1fr;
+    }
+
+    .news-list time {
+        display: none;
+    }
+}
+
+@media (max-width: 450px) {
+
+    .logo {
+        font-size: 25px;
+    }
+
+    .league-title {
+        font-size: 13px;
+    }
+
+    .teams {
+        grid-template-columns: 1fr;
+    }
+
+    .match {
+        gap: 18px;
+    }
+
+}

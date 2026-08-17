@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CPL 관리자</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="top-header">
+
+    <div class="logo">
+        ⚾ <strong>CPL</strong>
+        <span>2026</span>
+    </div>
+
+    <div class="league-title">
+        🔐 관리자 페이지
+    </div>
+
+</header>
+
+
+<nav class="main-nav">
+
+    <a href="index.html">
+        🏠 사이트
+    </a>
+
+</nav>
+
+
+
+<main>
+
+
+    <!-- 로그인 -->
+
+    <section
+        id="login-section"
+        class="box"
+        style="padding:25px;"
+    >
+
+        <h2>
+            🔐 관리자 로그인
+        </h2>
+
+        <p>
+            관리자만 이용할 수 있습니다.
+        </p>
+
+
+        <input
+            type="password"
+            id="admin-password"
+            placeholder="관리자 비밀번호"
+        >
+
+
+        <button
+            onclick="loginAdmin()"
+            style="
+                padding:12px 20px;
+                background:#071a3d;
+                color:white;
+                border:0;
+                border-radius:8px;
+                cursor:pointer;
+            "
+        >
+            로그인
+        </button>
+
+    </section>
+
+
+
+    <!-- 관리자 화면 -->
+
+    <section
+        id="admin-panel"
+        style="display:none;"
+    >
+
+
+        <!-- 경기 결과 -->
+
+        <div class="box">
+
+            <div class="box-title">
+                ⚾ 경기 결과 입력
+            </div>
+
+
+            <div style="padding:20px">
+
+                <label>
+                    경기 선택
+                </label>
+
+
+                <select
+                    id="game-select"
+                >
+                </select>
+
+
+                <br><br>
+
+
+                <label>
+                    홈팀 점수
+                </label>
+
+
+                <input
+                    type="number"
+                    id="home-score"
+                    min="0"
+                    placeholder="홈팀 점수"
+                >
+
+
+                <label>
+                    원정팀 점수
+                </label>
+
+
+                <input
+                    type="number"
+                    id="away-score"
+                    min="0"
+                    placeholder="원정팀 점수"
+                >
+
+
+                <button
+                    onclick="saveGameResult()"
+                    style="
+                        padding:12px 20px;
+                        background:#1769e8;
+                        color:white;
+                        border:0;
+                        border-radius:8px;
+                        cursor:pointer;
+                    "
+                >
+                    경기 결과 저장
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 뉴스 -->
+
+        <div class="box">
+
+            <div class="box-title">
+                📰 뉴스 작성
+            </div>
+
+
+            <div style="padding:20px">
+
+
+                <input
+                    type="text"
+                    id="news-title"
+                    placeholder="뉴스 제목"
+                >
+
+
+                <input
+                    type="text"
+                    id="news-category"
+                    placeholder="카테고리 예: 경기"
+                >
+
+
+                <textarea
+                    id="news-content"
+                    placeholder="뉴스 내용"
+                    rows="5"
+                ></textarea>
+
+
+                <button
+                    onclick="addNews()"
+                    style="
+                        padding:12px 20px;
+                        background:#071a3d;
+                        color:white;
+                        border:0;
+                        border-radius:8px;
+                        cursor:pointer;
+                    "
+                >
+                    뉴스 등록
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 데이터 관리 -->
+
+        <div class="box">
+
+            <div class="box-title">
+                💾 데이터 관리
+            </div>
+
+
+            <div style="padding:20px">
+
+
+                <button
+                    onclick="backupData()"
+                    style="
+                        padding:12px;
+                        background:#333;
+                        color:white;
+                        border:0;
+                        border-radius:8px;
+                    "
+                >
+                    데이터 백업
+                </button>
+
+
+                <button
+                    onclick="resetData()"
+                    style="
+                        padding:12px;
+                        background:#c62828;
+                        color:white;
+                        border:0;
+                        border-radius:8px;
+                    "
+                >
+                    초기 데이터 복구
+                </button>
+
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<script src="data.js"></script>
+
+
+<script>
+
+
+/* =====================================
+   관리자 설정
+===================================== */
+
+
+/*
+   ⚠️ 나중에 반드시 변경
+*/
+
+const ADMIN_PASSWORD = "1234";
+
+
+
+/* =====================================
+   데이터 가져오기
+===================================== */
+
+function getCPLData() {
+
+    const saved =
+        localStorage.getItem("CPL_DATA");
+
+    if (saved) {
+
+        return JSON.parse(saved);
+
+    }
+
+
+    return JSON.parse(
+        JSON.stringify(window.CPL_DATA)
+    );
+
+}
+
+
+
+/* =====================================
+   로그인
+===================================== */
+
+function loginAdmin() {
+
+    const password =
+        document.getElementById(
+            "admin-password"
+        ).value;
+
+
+    if (
+        password === ADMIN_PASSWORD
+    ) {
+
+        document.getElementById(
+            "login-section"
+        ).style.display = "none";
+
+
+        document.getElementById(
+            "admin-panel"
+        ).style.display = "block";
+
+
+        loadGames();
+
+
+        alert(
+            "관리자 로그인 성공!"
+        );
+
+    }
+
+    else {
+
+        alert(
+            "비밀번호가 틀렸습니다."
+        );
+
+    }
+
+}
+
+
+
+/* =====================================
+   경기 목록 불러오기
+===================================== */
+
+function loadGames() {
+
+    const data =
+        getCPLData();
+
+
+    const select =
+        document.getElementById(
+            "game-select"
+        );
+
+
+    select.innerHTML = "";
+
+
+    data.games.forEach(
+        game => {
+
+            const home =
+                data.teams.find(
+                    team =>
+                        team.id === game.home
+                );
+
+
+            const away =
+                data.teams.find(
+                    team =>
+                        team.id === game.away
+                );
+
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                game.id;
+
+
+            option.textContent =
+                `${game.id}차전 | ${home.name} VS ${away.name}`;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================
+   경기 결과 저장
+===================================== */
+
+function saveGameResult() {
+
+    const data =
+        getCPLData();
+
+
+    const gameId =
+        Number(
+            document.getElementById(
+                "game-select"
+            ).value
+        );
+
+
+    const homeScore =
+        Number(
+            document.getElementById(
+                "home-score"
+            ).value
+        );
+
+
+    const awayScore =
+        Number(
+            document.getElementById(
+                "away-score"
+            ).value
+        );
+
+
+    if (
+        document.getElementById(
+            "home-score"
+        ).value === "" ||
+
+        document.getElementById(
+            "away-score"
+        ).value === ""
+    ) {
+
+        alert(
+            "점수를 입력해주세요."
+        );
+
+        return;
+
+    }
+
+
+    const game =
+        data.games.find(
+            game =>
+                game.id === gameId
+        );
+
+
+    if (!game) {
+
+        alert(
+            "경기를 찾을 수 없습니다."
+        );
+
+        return;
+
+    }
+
+
+    game.homeScore =
+        homeScore;
+
+
+    game.awayScore =
+        awayScore;
+
+
+    game.status =
+        "종료";
+
+
+    localStorage.setItem(
+        "CPL_DATA",
+        JSON.stringify(data)
+    );
+
+
+    alert(
+        "경기 결과가 저장되었습니다!"
+    );
+
+}
+
+
+
+/* =====================================
+   뉴스 등록
+===================================== */
+
+function addNews() {
+
+    const data =
+        getCPLData();
+
+
+    const title =
+        document.getElementById(
+            "news-title"
+        ).value;
+
+
+    const category =
+        document.getElementById(
+            "news-category"
+        ).value;
+
+
+    const content =
+        document.getElementById(
+            "news-content"
+        ).value;
+
+
+    if (
+        !title ||
+        !content
+    ) {
+
+        alert(
+            "제목과 내용을 입력해주세요."
+        );
+
+        return;
+
+    }
+
+
+    data.news.push({
+
+        id:
+            Date.now(),
+
+        category:
+            category || "뉴스",
+
+        title:
+            title,
+
+        content:
+            content,
+
+        date:
+            new Date()
+                .toISOString()
+                .split("T")[0]
+
+    });
+
+
+    localStorage.setItem(
+        "CPL_DATA",
+        JSON.stringify(data)
+    );
+
+
+    document.getElementById(
+        "news-title"
+    ).value = "";
+
+
+    document.getElementById(
+        "news-category"
+    ).value = "";
+
+
+    document.getElementById(
+        "news-content"
+    ).value = "";
+
+
+    alert(
+        "뉴스가 등록되었습니다!"
+    );
+
+}
+
+
+
+/* =====================================
+   데이터 백업
+===================================== */
+
+function backupData() {
+
+    const data =
+        getCPLData();
+
+
+    const blob =
+        new Blob(
+            [
+                JSON.stringify(
+                    data,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        "CPL_2026_backup.json";
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+}
+
+
+
+/* =====================================
+   초기 데이터 복구
+===================================== */
+
+function resetData() {
+
+    const ok =
+        confirm(
+            "정말 초기 데이터로 복구할까요?"
+        );
+
+
+    if (!ok) return;
+
+
+    localStorage.removeItem(
+        "CPL_DATA"
+    );
+
+
+    alert(
+        "초기 데이터로 복구했습니다."
+    );
+
+
+    location.reload();
+
+}
+
+</script>
+
+
+</body>
+
+</html>
