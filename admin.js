@@ -192,4 +192,129 @@ function startAdmin() {
 document.addEventListener(
     "DOMContentLoaded",
     startAdmin
-);
+);/* =========================================
+   경기 결과 관리
+========================================= */
+
+function showGameManager() {
+
+    const manager =
+        document.getElementById("game-manager");
+
+    manager.style.display = "block";
+
+    loadGameList();
+
+}
+
+
+/* 경기 목록 */
+
+function loadGameList() {
+
+    const select =
+        document.getElementById("gameSelect");
+
+    select.innerHTML = "";
+
+    CPL_DATA.games.forEach(game => {
+
+        const home =
+            CPL_DATA.teams.find(
+                team => team.id === game.home
+            );
+
+        const away =
+            CPL_DATA.teams.find(
+                team => team.id === game.away
+            );
+
+        const option =
+            document.createElement("option");
+
+        option.value = game.id;
+
+        option.textContent =
+            `${game.id}차전 | ${home.name} VS ${away.name}`;
+
+        select.appendChild(option);
+
+    });
+
+}
+
+
+/* 결과 저장 */
+
+function saveGameResult() {
+
+    const gameId =
+        Number(
+            document.getElementById(
+                "gameSelect"
+            ).value
+        );
+
+    const homeScore =
+        Number(
+            document.getElementById(
+                "homeScore"
+            ).value
+        );
+
+    const awayScore =
+        Number(
+            document.getElementById(
+                "awayScore"
+            ).value
+        );
+
+
+    if (
+        document.getElementById("homeScore").value === "" ||
+        document.getElementById("awayScore").value === ""
+    ) {
+
+        alert("⚾ 두 팀의 점수를 입력해주세요.");
+
+        return;
+
+    }
+
+
+    const game =
+        CPL_DATA.games.find(
+            game => game.id === gameId
+        );
+
+
+    if (!game) {
+
+        alert("경기를 찾을 수 없습니다.");
+
+        return;
+
+    }
+
+
+    game.homeScore = homeScore;
+
+    game.awayScore = awayScore;
+
+    game.status = "종료";
+
+
+    /* 저장 */
+
+    localStorage.setItem(
+        "CPL_DATA",
+        JSON.stringify(CPL_DATA)
+    );
+
+
+    alert(
+        `⚾ ${gameId}차전 결과 저장 완료!\n\n` +
+        `${homeScore} : ${awayScore}`
+    );
+
+}
