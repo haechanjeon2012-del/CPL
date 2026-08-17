@@ -1,27 +1,102 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CPL 관리자</title>
+    <link rel="stylesheet" href="style.css">
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <style>
+        .admin-login {
+            max-width: 420px;
+            margin: 70px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.1);
+        }
 
+        .admin-login h1 {
+            margin-top: 0;
+        }
+
+        .admin-input {
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .admin-button {
+            width: 100%;
+            padding: 14px;
+            border: 0;
+            border-radius: 8px;
+            background: #071a3d;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .admin-button:hover {
+            opacity: .9;
+        }
+
+        .admin-error {
+            color: #d32f2f;
+            margin-top: 12px;
+            display: none;
+        }
+
+        #admin-panel {
+            display: none;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .admin-card {
+            background: white;
+            border: 1px solid #e1e5ea;
+            border-radius: 14px;
+            padding: 25px;
+        }
+
+        .admin-card h2 {
+            margin-top: 0;
+        }
+
+        .admin-card button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 0;
+            border-radius: 8px;
+            background: #1769e8;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logout-button {
+            background: #c62828 !important;
+        }
+
+        @media (max-width: 700px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
-
 <body>
-
 
 <header class="top-header">
 
@@ -31,682 +106,180 @@
     </div>
 
     <div class="league-title">
-        🔐 관리자 페이지
+        🔐 관리자
     </div>
 
 </header>
 
 
-<nav class="main-nav">
+<!-- =========================
+     로그인 화면
+========================= -->
 
-    <a href="index.html">
-        🏠 사이트
-    </a>
+<section id="login-screen" class="admin-login">
 
-</nav>
+    <h1>🔐 CPL 관리자 로그인</h1>
 
+    <p>
+        관리자만 이용할 수 있습니다.
+    </p>
 
-
-<main>
-
-
-    <!-- 로그인 -->
-
-    <section
-        id="login-section"
-        class="box"
-        style="padding:25px;"
+    <input
+        id="admin-password"
+        class="admin-input"
+        type="password"
+        placeholder="관리자 비밀번호"
     >
 
-        <h2>
-            🔐 관리자 로그인
-        </h2>
-
-        <p>
-            관리자만 이용할 수 있습니다.
-        </p>
-
-
-        <input
-            type="password"
-            id="admin-password"
-            placeholder="관리자 비밀번호"
-        >
-
-
-        <button
-            onclick="loginAdmin()"
-            style="
-                padding:12px 20px;
-                background:#071a3d;
-                color:white;
-                border:0;
-                border-radius:8px;
-                cursor:pointer;
-            "
-        >
-            로그인
-        </button>
-
-    </section>
-
-
-
-    <!-- 관리자 화면 -->
-
-    <section
-        id="admin-panel"
-        style="display:none;"
+    <button
+        class="admin-button"
+        onclick="loginAdmin()"
     >
+        로그인
+    </button>
+
+    <div
+        id="login-error"
+        class="admin-error"
+    >
+        비밀번호가 올바르지 않습니다.
+    </div>
+
+</section>
 
 
-        <!-- 경기 결과 -->
+<!-- =========================
+     관리자 메뉴
+========================= -->
 
-        <div class="box">
+<main id="admin-panel">
 
-            <div class="box-title">
-                ⚾ 경기 결과 입력
-            </div>
+    <h1>⚾ CPL 관리자 센터</h1>
 
-
-            <div style="padding:20px">
-
-                <label>
-                    경기 선택
-                </label>
+    <p>
+        CPL 사이트의 정보를 관리합니다.
+    </p>
 
 
-                <select
-                    id="game-select"
-                >
-                </select>
+    <div class="admin-grid">
 
+        <!-- 경기 -->
 
-                <br><br>
+        <div class="admin-card">
 
+            <h2>⚾ 경기 결과</h2>
 
-                <label>
-                    홈팀 점수
-                </label>
+            <p>
+                경기 결과와 점수를 수정합니다.
+            </p>
 
-
-                <input
-                    type="number"
-                    id="home-score"
-                    min="0"
-                    placeholder="홈팀 점수"
-                >
-
-
-                <label>
-                    원정팀 점수
-                </label>
-
-
-                <input
-                    type="number"
-                    id="away-score"
-                    min="0"
-                    placeholder="원정팀 점수"
-                >
-
-
-                <button
-                    onclick="saveGameResult()"
-                    style="
-                        padding:12px 20px;
-                        background:#1769e8;
-                        color:white;
-                        border:0;
-                        border-radius:8px;
-                        cursor:pointer;
-                    "
-                >
-                    경기 결과 저장
-                </button>
-
-            </div>
+            <button onclick="openSection('games')">
+                경기 관리
+            </button>
 
         </div>
 
+
+        <!-- 일정 -->
+
+        <div class="admin-card">
+
+            <h2>📅 일정</h2>
+
+            <p>
+                경기 날짜와 대진을 수정합니다.
+            </p>
+
+            <button onclick="openSection('schedule')">
+                일정 관리
+            </button>
+
+        </div>
 
 
         <!-- 뉴스 -->
 
-        <div class="box">
+        <div class="admin-card">
 
-            <div class="box-title">
-                📰 뉴스 작성
-            </div>
+            <h2>📰 뉴스</h2>
 
+            <p>
+                CPL 뉴스와 공지를 등록합니다.
+            </p>
 
-            <div style="padding:20px">
-
-
-                <input
-                    type="text"
-                    id="news-title"
-                    placeholder="뉴스 제목"
-                >
-
-
-                <input
-                    type="text"
-                    id="news-category"
-                    placeholder="카테고리 예: 경기"
-                >
-
-
-                <textarea
-                    id="news-content"
-                    placeholder="뉴스 내용"
-                    rows="5"
-                ></textarea>
-
-
-                <button
-                    onclick="addNews()"
-                    style="
-                        padding:12px 20px;
-                        background:#071a3d;
-                        color:white;
-                        border:0;
-                        border-radius:8px;
-                        cursor:pointer;
-                    "
-                >
-                    뉴스 등록
-                </button>
-
-
-            </div>
+            <button onclick="openSection('news')">
+                뉴스 관리
+            </button>
 
         </div>
 
 
+        <!-- 팀 -->
 
-        <!-- 데이터 관리 -->
+        <div class="admin-card">
 
-        <div class="box">
+            <h2>👥 팀</h2>
 
-            <div class="box-title">
-                💾 데이터 관리
-            </div>
+            <p>
+                팀 이름과 정보를 수정합니다.
+            </p>
 
-
-            <div style="padding:20px">
-
-
-                <button
-                    onclick="backupData()"
-                    style="
-                        padding:12px;
-                        background:#333;
-                        color:white;
-                        border:0;
-                        border-radius:8px;
-                    "
-                >
-                    데이터 백업
-                </button>
-
-
-                <button
-                    onclick="resetData()"
-                    style="
-                        padding:12px;
-                        background:#c62828;
-                        color:white;
-                        border:0;
-                        border-radius:8px;
-                    "
-                >
-                    초기 데이터 복구
-                </button>
-
-
-            </div>
+            <button onclick="openSection('teams')">
+                팀 관리
+            </button>
 
         </div>
 
 
-    </section>
+        <!-- 선수 -->
 
+        <div class="admin-card">
+
+            <h2>👤 선수</h2>
+
+            <p>
+                선수 정보를 수정합니다.
+            </p>
+
+            <button onclick="openSection('players')">
+                선수 관리
+            </button>
+
+        </div>
+
+
+        <!-- 사이트 -->
+
+        <div class="admin-card">
+
+            <h2>🌐 사이트</h2>
+
+            <p>
+                CPL 공개 사이트로 이동합니다.
+            </p>
+
+            <button onclick="location.href='index.html'">
+                CPL 사이트 열기
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+    <button
+        class="admin-button logout-button"
+        onclick="logoutAdmin()"
+    >
+        로그아웃
+    </button>
 
 </main>
 
 
-
-<script src="data.js"></script>
-
-
-<script>
-
-
-/* =====================================
-   관리자 설정
-===================================== */
-
-
-/*
-   ⚠️ 나중에 반드시 변경
-*/
-
-const ADMIN_PASSWORD = "1234";
-
-
-
-/* =====================================
-   데이터 가져오기
-===================================== */
-
-function getCPLData() {
-
-    const saved =
-        localStorage.getItem("CPL_DATA");
-
-    if (saved) {
-
-        return JSON.parse(saved);
-
-    }
-
-
-    return JSON.parse(
-        JSON.stringify(window.CPL_DATA)
-    );
-
-}
-
-
-
-/* =====================================
-   로그인
-===================================== */
-
-function loginAdmin() {
-
-    const password =
-        document.getElementById(
-            "admin-password"
-        ).value;
-
-
-    if (
-        password === ADMIN_PASSWORD
-    ) {
-
-        document.getElementById(
-            "login-section"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "admin-panel"
-        ).style.display = "block";
-
-
-        loadGames();
-
-
-        alert(
-            "관리자 로그인 성공!"
-        );
-
-    }
-
-    else {
-
-        alert(
-            "비밀번호가 틀렸습니다."
-        );
-
-    }
-
-}
-
-
-
-/* =====================================
-   경기 목록 불러오기
-===================================== */
-
-function loadGames() {
-
-    const data =
-        getCPLData();
-
-
-    const select =
-        document.getElementById(
-            "game-select"
-        );
-
-
-    select.innerHTML = "";
-
-
-    data.games.forEach(
-        game => {
-
-            const home =
-                data.teams.find(
-                    team =>
-                        team.id === game.home
-                );
-
-
-            const away =
-                data.teams.find(
-                    team =>
-                        team.id === game.away
-                );
-
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            option.value =
-                game.id;
-
-
-            option.textContent =
-                `${game.id}차전 | ${home.name} VS ${away.name}`;
-
-
-            select.appendChild(
-                option
-            );
-
-        }
-    );
-
-}
-
-
-
-/* =====================================
-   경기 결과 저장
-===================================== */
-
-function saveGameResult() {
-
-    const data =
-        getCPLData();
-
-
-    const gameId =
-        Number(
-            document.getElementById(
-                "game-select"
-            ).value
-        );
-
-
-    const homeScore =
-        Number(
-            document.getElementById(
-                "home-score"
-            ).value
-        );
-
-
-    const awayScore =
-        Number(
-            document.getElementById(
-                "away-score"
-            ).value
-        );
-
-
-    if (
-        document.getElementById(
-            "home-score"
-        ).value === "" ||
-
-        document.getElementById(
-            "away-score"
-        ).value === ""
-    ) {
-
-        alert(
-            "점수를 입력해주세요."
-        );
-
-        return;
-
-    }
-
-
-    const game =
-        data.games.find(
-            game =>
-                game.id === gameId
-        );
-
-
-    if (!game) {
-
-        alert(
-            "경기를 찾을 수 없습니다."
-        );
-
-        return;
-
-    }
-
-
-    game.homeScore =
-        homeScore;
-
-
-    game.awayScore =
-        awayScore;
-
-
-    game.status =
-        "종료";
-
-
-    localStorage.setItem(
-        "CPL_DATA",
-        JSON.stringify(data)
-    );
-
-
-    alert(
-        "경기 결과가 저장되었습니다!"
-    );
-
-}
-
-
-
-/* =====================================
-   뉴스 등록
-===================================== */
-
-function addNews() {
-
-    const data =
-        getCPLData();
-
-
-    const title =
-        document.getElementById(
-            "news-title"
-        ).value;
-
-
-    const category =
-        document.getElementById(
-            "news-category"
-        ).value;
-
-
-    const content =
-        document.getElementById(
-            "news-content"
-        ).value;
-
-
-    if (
-        !title ||
-        !content
-    ) {
-
-        alert(
-            "제목과 내용을 입력해주세요."
-        );
-
-        return;
-
-    }
-
-
-    data.news.push({
-
-        id:
-            Date.now(),
-
-        category:
-            category || "뉴스",
-
-        title:
-            title,
-
-        content:
-            content,
-
-        date:
-            new Date()
-                .toISOString()
-                .split("T")[0]
-
-    });
-
-
-    localStorage.setItem(
-        "CPL_DATA",
-        JSON.stringify(data)
-    );
-
-
-    document.getElementById(
-        "news-title"
-    ).value = "";
-
-
-    document.getElementById(
-        "news-category"
-    ).value = "";
-
-
-    document.getElementById(
-        "news-content"
-    ).value = "";
-
-
-    alert(
-        "뉴스가 등록되었습니다!"
-    );
-
-}
-
-
-
-/* =====================================
-   데이터 백업
-===================================== */
-
-function backupData() {
-
-    const data =
-        getCPLData();
-
-
-    const blob =
-        new Blob(
-            [
-                JSON.stringify(
-                    data,
-                    null,
-                    2
-                )
-            ],
-            {
-                type:
-                    "application/json"
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const link =
-        document.createElement(
-            "a"
-        );
-
-
-    link.href =
-        url;
-
-
-    link.download =
-        "CPL_2026_backup.json";
-
-
-    link.click();
-
-
-    URL.revokeObjectURL(
-        url
-    );
-
-}
-
-
-
-/* =====================================
-   초기 데이터 복구
-===================================== */
-
-function resetData() {
-
-    const ok =
-        confirm(
-            "정말 초기 데이터로 복구할까요?"
-        );
-
-
-    if (!ok) return;
-
-
-    localStorage.removeItem(
-        "CPL_DATA"
-    );
-
-
-    alert(
-        "초기 데이터로 복구했습니다."
-    );
-
-
-    location.reload();
-
-}
-
-</script>
-
+<script src="admin.js"></script>
 
 </body>
-
 </html>
